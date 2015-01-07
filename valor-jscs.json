@@ -2,17 +2,22 @@
     "excludeFiles": ["node_modules/**"],
     "maxErrors": 100,
 
-    "requireCurlyBraces": true,
-    "requireSpaceBeforeKeywords": true,
+    "requireCurlyBraces": [
+         "if",
+         "else",
+         "for",
+         "while",
+         "do",
+         "try",
+         "catch"
+     ],
+    "requireSpaceBeforeKeywords": ["else", "while", "catch"],
     "requireSpaceAfterKeywords": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireParenthesesAroundIIFE": true,
     "requireSpacesInConditionalExpression": true,
     "requireSpacesInFunction": {
         "beforeOpeningCurlyBrace": true
-    },
-    "disallowSpacesInFunction": {
-        "beforeOpeningRoundBrace": true
     },
     "disallowSpacesInCallExpression": true,
     "disallowMultipleVarDecl": "exceptUndefined",
@@ -24,8 +29,7 @@
         "if",
         "switch",
         "try",
-        "while",
-        "return"
+        "while"
     ], 
     "disallowEmptyBlocks": true,
     "disallowQuotedKeysInObjects": "allButReserved",
@@ -42,16 +46,12 @@
     "disallowMultipleLineStrings": true,
     "disallowMultipleLineBreaks": true,
     "disallowMixedSpacesAndTabs": true,   
-    "disallowOperatorBeforeLineBreak": ["+", "."],
-    "disallowTrailingWhitespace": true,
-    "disallowTrailingComma": true,
+    "disallowOperatorBeforeLineBreak": [ "."],
     "disallowKeywordsOnNewLine": ["else"],
     "requireLineBreakAfterVariableAssignment": true,
-    "maximumLineLength": 80,
+    "maximumLineLength": 120,
     "requireCapitalizedConstructors": true,
     "requireDotNotation": true,
-    "requireSpaceAfterLineComment": true,
-    "disallowAnonymousFunctions": true,
     "requireFunctionDeclarations": true,
     "disallowNewlineBeforeBlockStatements": true,
     "validateLineBreaks": "LF",
