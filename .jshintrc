@@ -15,7 +15,7 @@
   "maxstatements": 15,
   "newcap": true,       // Require capitalization of all constructor functions e.g. `new F()`
   "noarg": true,        // Prohibit use of `arguments.caller` and `arguments.callee`
-  "nocomma": true,
+  //"nocomma": true,    // works incorectly
   "noempty": true,      // Warns when you have an empty block in your code
   "nonbsp": true,
   "nonew": true,
