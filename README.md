@@ -23,3 +23,6 @@ gulp.task('lint', function () {
 
 ### Editor config rules
 * [.editorconfig](https://github.com/valor-software/valor-style-guides/blob/master/.editorconfig)
+
+### Force testing linting:
+* [pre-commit](https://www.npmjs.com/package/pre-commit)
