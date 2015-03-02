@@ -9,6 +9,9 @@ Must be read and applied:
 
 ### Commit message guideline
 
+#### Important
+* commits without task id (link for asana) are not allowed
+
 Make the changes to the code and tests and then commit to your branch. Be sure to follow the commit message conventions.
 
 Commit message summaries must follow this basic format:
