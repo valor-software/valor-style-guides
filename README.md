@@ -5,7 +5,7 @@ Company-shared style guides and practices
 Must be read and applied: 
 - node.js\angular.js style guides
 - commit message guideline
-- use eslint
+- use eslint and knew eslint rules
 
 ### Commit message guideline
 
