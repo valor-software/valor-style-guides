@@ -11,6 +11,7 @@
     "jQuery": 2
   },
   "rules": {
+    "indent": [2,2],
     // Possible Errors
     "no-comma-dangle": 2,
     // except-parens, always
