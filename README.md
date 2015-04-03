@@ -4,10 +4,10 @@ valor-style-guides
 # Company-shared style guides and practices
 
 ##Must be read and applied: 
-- [node.js]((nodejs/node-style-guide.md)
+- [node.js](nodejs/node-style-guide.md)
 - angular.js style guides
 - [commit message guideline](contribution/contribution-guidelines.md)
-- use eslint and knew `eslint` [rules](http://eslint.org/docs/rules)
+- use [`eslint`](https://github.com/eslint/eslint) and knew `eslint` [rules](http://eslint.org/docs/rules)
 
 
 
