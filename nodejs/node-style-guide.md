@@ -1423,13 +1423,19 @@ Heavily inspired by them as well:
 
 ## The JavaScript Style Guide Guide
 
+Comming soon
+<!---
   - [Reference](https://github.com/airbnb/javascript/wiki/The-JavaScript-Style-Guide-Guide)
+  -->
 
 ## License
 
 (The MIT License)
 
+Copyright (c) 2014 Dmitriy [@valorkin](https://github.com/valorkin) Shekhovtsov
 Copyright (c) 2014 Valor Software
+Copyright (c) 2014 Airbnb
+Copyright (c) 2014 RisingStack
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
