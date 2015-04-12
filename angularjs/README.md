@@ -887,7 +887,7 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
 ## Data Services
 
 ### Separate Data Calls
-###### [Style [Y060](#style-y060)]
+<!-- ###### [Style [Y060](#style-y060)] -->
 
   - Refactor logic for making data operations and interacting with data to a factory. Make data services responsible for XHR calls, local storage, stashing in memory, or any other data operations.
 
@@ -903,29 +903,32 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   // dataservice factory
   angular
       .module('app.core')
-      .factory('dataservice', dataservice);
+      .factory('dataservice', [
+        '$http', 'logger',
+        function dataservice($http, logger) {
+          function AvengeresRepository() {}
+          AvengeresRepository.prototype = {
+              getAvengers: getAvengers
+          };
 
-  dataservice.$inject = ['$http', 'logger'];
+          return new AvengeresRepository() {}
 
-  function dataservice($http, logger) {
-      return {
-          getAvengers: getAvengers
-      };
+          function getAvengers(cb) {
+              return $http.get('/api/maa')
+                  .then(getAvengersComplete)
+                  .catch(getAvengersFailed);
 
-      function getAvengers() {
-          return $http.get('/api/maa')
-              .then(getAvengersComplete)
-              .catch(getAvengersFailed);
+              function getAvengersComplete(response) {
+                  return cb(null, response.data.results);
+              }
 
-          function getAvengersComplete(response) {
-              return response.data.results;
+              function getAvengersFailed(error) {
+                  logger.error('XHR Failed for getAvengers.' + error.data);
+                  return cb(error.data);
+              }
           }
-
-          function getAvengersFailed(error) {
-              logger.error('XHR Failed for getAvengers.' + error.data);
-          }
-      }
-  }
+        }
+      ]);
   ```
 
     Note: The data service is called from consumers, such as a controller, hiding the implementation from the consumers, as shown below.
@@ -936,30 +939,29 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   // controller calling the dataservice factory
   angular
       .module('app.avengers')
-      .controller('Avengers', Avengers);
+      .controller('Avengers', [
+        'dataservice', 'logger',
+        function Avengers(dataservice, logger) {
+            var self = this;
+            self.avengers = [];
 
-  Avengers.$inject = ['dataservice', 'logger'];
+            activate();
 
-  function Avengers(dataservice, logger) {
-      var self = this;
-      self.avengers = [];
+            function activate() {
+                return getAvengers(function() {
+                    logger.info('Activated Avengers View');
+                });
+            }
 
-      activate();
-
-      function activate() {
-          return getAvengers().then(function() {
-              logger.info('Activated Avengers View');
-          });
-      }
-
-      function getAvengers() {
-          return dataservice.getAvengers()
-              .then(function(data) {
-                  self.avengers = data;
-                  return self.avengers;
-              });
-      }
-  }
+            function getAvengers(cb) {
+                return dataservice
+                  .getAvengers(function(err, data) {
+                        self.avengers = data;
+                        return cb(err, data);
+                  });
+            }
+        }
+      ]);
   ```
 
 ### Return a Promise from Data Calls
