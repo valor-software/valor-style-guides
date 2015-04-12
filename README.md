@@ -1,18 +1,15 @@
-valor-style-guides
-=================
+## Company-shared style guides and practices
 
-# Company-shared style guides and practices
-
-##Must be read and applied: 
-- [node.js](nodejs/node-style-guide.md)
-- angular.js style guides
+### Must be read and applied: 
+- [node.js style guide](nodejs/node-style-guide.md)
+- [angular.js style guide](angularjs/README.md)
 - [commit message guideline](contribution/contribution-guidelines.md)
-- use [`eslint`](https://github.com/eslint/eslint) and knew `eslint` [rules](http://eslint.org/docs/rules)
 
+- Code linting: [`eslint`](https://github.com/eslint/eslint)
 
 
 ### Apply linter rules to your projects:
-* [.eslintrc](.eslintrc) - docs for  [eslint](http://eslint.org/docs/rules/)
+* ESLint options file: [.eslintrc](.eslintrc)
 ```js
 var eslint = require('gulp-eslint');
 
@@ -31,5 +28,5 @@ gulp.task('lint', function () {
 ### Force testing linting:
 * [pre-commit](https://www.npmjs.com/package/pre-commit)
 
-Credits: 
+### Credits: 
 * [eslint docs](http://eslint.org/docs/developer-guide/contributing.html)
