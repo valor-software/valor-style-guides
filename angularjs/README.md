@@ -1142,53 +1142,60 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   ```
 
   ```javascript
+  // my-example-directive.js
   angular
       .module('app')
-      .directive('myExample', myExample);
+      .directive('myExample', [
+         function myExample() {
+            var directive = {
+                restrict: 'EA',
+                templateUrl: 'app/feature/example.directive.html',
+                scope: {
+                    max: '='
+                },
+                link: linkFunc,
+                controller: ExampleController,
+                controllerAs: 'ctrl',
+                bindToController: true // because the scope is isolated
+            };
 
-  function myExample() {
-      var directive = {
-          restrict: 'EA',
-          templateUrl: 'app/feature/example.directive.html',
-          scope: {
-              max: '='
-          },
-          link: linkFunc,
-          controller: ExampleController,
-          controllerAs: 'self',
-          bindToController: true // because the scope is isolated
-      };
+            return directive;
 
-      return directive;
+            function linkFunc(scope, el, attr, ctrl) {
+                console.log('LINK: scope.min = %s *** should be undefined', scope.min);
+                console.log('LINK: scope.max = %s *** should be undefined', scope.max);
+                console.log('LINK: scope.self.min = %s', scope.self.min);
+                console.log('LINK: scope.self.max = %s', scope.self.max);
+            }
+          }
+      ]);
+```
 
-      function linkFunc(scope, el, attr, ctrl) {
-          console.log('LINK: scope.min = %s *** should be undefined', scope.min);
-          console.log('LINK: scope.max = %s *** should be undefined', scope.max);
-          console.log('LINK: scope.self.min = %s', scope.self.min);
-          console.log('LINK: scope.self.max = %s', scope.self.max);
-      }
-  }
+```javascript
+  // example-controller.js
+  angular
+      .module('app')
+      .controller('ExampleController', [
+          '$scope',
+          function ExampleController($scope) {
+              // Injecting $scope just for comparison
+              var self = this;
 
-  ExampleController.$inject = ['$scope'];
+              self.min = 3;
 
-  function ExampleController($scope) {
-      // Injecting $scope just for comparison
-      var self = this;
-
-      self.min = 3;
-
-      console.log('CTRL: $scope.self.min = %s', $scope.self.min);
-      console.log('CTRL: $scope.self.max = %s', $scope.self.max);
-      console.log('CTRL: self.min = %s', self.min);
-      console.log('CTRL: self.max = %s', self.max);
-  }
+              console.log('CTRL: $scope.self.min = %s', $scope.self.min);
+              console.log('CTRL: $scope.self.max = %s', $scope.self.max);
+              console.log('CTRL: self.min = %s', self.min);
+              console.log('CTRL: self.max = %s', self.max);
+          }
+      ])
   ```
 
   ```html
   <!-- example.directive.html -->
   <div>hello world</div>
-  <div>max={{self.max}}<input ng-model="self.max"/></div>
-  <div>min={{self.min}}<input ng-model="self.min"/></div>
+  <div>max={{ctrl.max}}<input ng-model="ctrl.max"/></div>
+  <div>min={{ctrl.min}}<input ng-model="ctrl.min"/></div>
   ```
 
     Note: You can also name the controller when you inject it into the link function and access directive attributes as properties of the controller.
@@ -1203,7 +1210,8 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   }
   ```
 
-###### [Style [Y076](#style-y076)]
+<!-- ###### [Style [Y076](#style-y076)] -->
+### Use `bindToController` in directive definitions
 
   - Use `bindToController = true` when using `controller as` syntax with a directive when you want to bind the outer scope to the directive's controller's scope.
 
@@ -1216,46 +1224,54 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   ```
 
   ```javascript
+  // my-example-directive.js
   angular
       .module('app')
-      .directive('myExample', myExample);
+      .directive('myExample', [
+          function myExample() {
+              var directive = {
+                  restrict: 'EA',
+                  templateUrl: 'app/feature/example.directive.html',
+                  scope: {
+                      max: '='
+                  },
+                  controller: ExampleController,
+                  controllerAs: 'ctrl',
+                  bindToController: true
+              };
 
-  function myExample() {
-      var directive = {
-          restrict: 'EA',
-          templateUrl: 'app/feature/example.directive.html',
-          scope: {
-              max: '='
-          },
-          controller: ExampleController,
-          controllerAs: 'self',
-          bindToController: true
-      };
-
-      return directive;
-  }
-
-  function ExampleController() {
-      var self = this;
-      self.min = 3;
-      console.log('CTRL: self.min = %s', self.min);
-      console.log('CTRL: self.max = %s', self.max);
-  }
+              return directive;
+          }
+  ]);
+```
+  
+```javascript
+  // example-controller.js
+  angular
+      .module('app')
+      .controller('ExampleController', [
+          function ExampleController() {
+              var self = this;
+              self.min = 3;
+              console.log('CTRL: self.min = %s', self.min);
+              console.log('CTRL: self.max = %s', self.max);
+          }
+      ]);
   ```
 
   ```html
   <!-- example.directive.html -->
   <div>hello world</div>
-  <div>max={{self.max}}<input ng-model="self.max"/></div>
-  <div>min={{self.min}}<input ng-model="self.min"/></div>
+  <div>max={{ctrl.max}}<input ng-model="ctrl.max"/></div>
+  <div>min={{ctrl.min}}<input ng-model="ctrl.min"/></div>
   ```
 
 **[Back to top](#table-of-contents)**
 
-## Resolving Promises for a Controller
+## Resolving a Controller
 
-### Controller Activation Promises
-###### [Style [Y080](#style-y080)]
+### Controller Activation
+<!-- ###### [Style [Y080](#style-y080)] -->
 
   - Resolve start-up logic for a controller in an `activate` function.
 
@@ -1263,7 +1279,7 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
 
     *Why?*: The controller `activate` makes it convenient to re-use the logic for a refresh for the controller/View, keeps the logic together, gets the user to the View faster, makes animations easy on the `ng-view` or `ui-view`, and feels snappier to the user.
 
-    Note: If you need to conditionally cancel the route before you start use the controller, use a [route resolve](#style-y081) instead.
+    Note: If you need to conditionally cancel the route before you start use the controller, use a `canActive` approach introduced in `angular 1.4`.
 
   ```javascript
   /* avoid */
@@ -1291,116 +1307,16 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
       ////////////
 
       function activate() {
-          return dataservice.getAvengers().then(function(data) {
+          return dataservice.getAvengers(function(err, data) {
               self.avengers = data;
-              return self.avengers;
           });
       }
   }
   ```
 
 ### Route Resolve Promises
-###### [Style [Y081](#style-y081)]
-
-  - When a controller depends on a promise to be resolved before the controller is activated, resolve those dependencies in the `$routeProvider` before the controller logic is executed. If you need to conditionally cancel a route before the controller is activated, use a route resolver.
-
-  - Use a route resolve when you want to decide to cancel the route before ever transitioning to the View.
-
-    *Why?*: A controller may require data before it loads. That data may come from a promise via a custom factory or [$http](https://docs.angularjs.org/api/ng/service/$http). Using a [route resolve](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider) allows the promise to resolve before the controller logic executes, so it might take action based on that data from the promise.
-
-    *Why?*: The code executes after the route and in the controller’s activate function. The View starts to load right away. Data binding kicks in when the activate promise resolves. A “busy” animation can be shown during the view transition (via `ng-view` or `ui-view`)
-
-    Note: The code executes before the route via a promise. Rejecting the promise cancels the route. Resolve makes the new view wait for the route to resolve. A “busy” animation can be shown before the resolve and through the view transition. If you want to get to the View faster and do not require a checkpoint to decide if you can get to the View, consider the [controller `activate` technique](#style-y080) instead.
-
-  ```javascript
-  /* avoid */
-  angular
-      .module('app')
-      .controller('Avengers', Avengers);
-
-  function Avengers(movieService) {
-      var self = this;
-      // unresolved
-      self.movies;
-      // resolved asynchronously
-      movieService.getMovies().then(function(response) {
-          self.movies = response.movies;
-      });
-  }
-  ```
-
-  ```javascript
-  /* better */
-
-  // route-config.js
-  angular
-      .module('app')
-      .config(config);
-
-  function config($routeProvider) {
-      $routeProvider
-          .when('/avengers', {
-              templateUrl: 'avengers.html',
-              controller: 'Avengers',
-              controllerAs: 'self',
-              resolve: {
-                  moviesPrepService: function(movieService) {
-                      return movieService.getMovies();
-                  }
-              }
-          });
-  }
-
-  // avengers.js
-  angular
-      .module('app')
-      .controller('Avengers', Avengers);
-
-  Avengers.$inject = ['moviesPrepService'];
-  function Avengers(moviesPrepService) {
-        var self = this;
-        self.movies = moviesPrepService.movies;
-  }
-  ```
-
-    Note: The example below shows the route resolve points to a named function, which is easier to debug and easier to handle dependency injection.
-
-  ```javascript
-  /* even better */
-
-  // route-config.js
-  angular
-      .module('app')
-      .config(config);
-
-  function config($routeProvider) {
-      $routeProvider
-          .when('/avengers', {
-              templateUrl: 'avengers.html',
-              controller: 'Avengers',
-              controllerAs: 'self',
-              resolve: {
-                  moviesPrepService: moviesPrepService
-              }
-          });
-  }
-
-  function moviePrepService(movieService) {
-      return movieService.getMovies();
-  }
-
-  // avengers.js
-  angular
-      .module('app')
-      .controller('Avengers', Avengers);
-
-  Avengers.$inject = ['moviesPrepService'];
-  function Avengers(moviesPrepService) {
-        var self = this;
-        self.movies = moviesPrepService.movies;
-  }
-  ```
-    Note: The code example's dependency on `movieService` is not minification safe on its own. For details on how to make this code minification safe, see the sections on [dependency injection](#manual-annotating-for-dependency-injection) and on [minification and annotation](#minification-and-annotation).
+<!-- ###### [Style [Y081](#style-y081)] -->
+  - Try to avoid usage of `$routeProvider` `resolve` promises, it leads to concepts mess and promis based logic on configurations step
 
 **[Back to top](#table-of-contents)**
 
