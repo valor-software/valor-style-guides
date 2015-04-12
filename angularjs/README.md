@@ -964,50 +964,14 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
       ]);
   ```
 
-### Return a Promise from Data Calls
-###### [Style [Y061](#style-y061)]
+### **NEVER** Return a Promise from Data Calls
+<!-- ###### [Style [Y061](#style-y061)] -->
 
-  - When calling a data service that returns a promise such as `$http`, return a promise in your calling function too.
+  - When calling a data service that returns a promise such as `$http`, never return a promise in your calling function too.
 
-    *Why?*: You can chain the promises together and take further action after the data call completes and resolves or rejects the promise.
+    *Why?*: It will be really hard to debug promise chains
 
-  ```javascript
-  /* recommended */
-
-  activate();
-
-  function activate() {
-      /**
-       * Step 1
-       * Ask the getAvengers function for the
-       * avenger data and wait for the promise
-       */
-      return getAvengers().then(function() {
-          /**
-           * Step 4
-           * Perform an action on resolve of final promise
-           */
-          logger.info('Activated Avengers View');
-      });
-  }
-
-  function getAvengers() {
-        /**
-         * Step 2
-         * Ask the data service for the data and wait
-         * for the promise
-         */
-        return dataservice.getAvengers()
-            .then(function(data) {
-                /**
-                 * Step 3
-                 * set the data and resolve the promise
-                 */
-                self.avengers = data;
-                return self.avengers;
-        });
-  }
-  ```
+  - Use promises only to integrate with events outside of `angular` `$digest`
 
     **[Back to top](#table-of-contents)**
 
