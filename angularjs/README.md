@@ -967,7 +967,8 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
 ### **NEVER** Return a Promise from Data Calls
 <!-- ###### [Style [Y061](#style-y061)] -->
 
-  - When calling a data service that returns a promise such as `$http`, never return a promise in your calling function too.
+  - When calling a data service that returns a promise such as `$http`, never return a promise in your calling function.
+  - Always use callbacks with applying of `node.js` signature convention `function(err, data)`
 
     *Why?*: It will be really hard to debug promise chains
 
@@ -977,7 +978,7 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
 
 ## Directives
 ### Limit 1 Per File
-###### [Style [Y070](#style-y070)]
+<!-- ###### [Style [Y070](#style-y070)] -->
 
   - Create one directive per file. Name the file for the directive.
 
@@ -1000,18 +1001,11 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
       /* sales directive that can be used anywhere across the sales app */
       .directive('salesCustomerInfo', salesCustomerInfo)
 
-      /* spinner directive that can be used anywhere across apps */
-      .directive('sharedSpinner', sharedSpinner);
-
   function orderCalendarRange() {
       /* implementation details */
   }
 
   function salesCustomerInfo() {
-      /* implementation details */
-  }
-
-  function sharedSpinner() {
       /* implementation details */
   }
   ```
@@ -1026,11 +1020,11 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
    */
   angular
       .module('sales.order')
-      .directive('acmeOrderCalendarRange', orderCalendarRange);
-
-  function orderCalendarRange() {
-      /* implementation details */
-  }
+      .directive('acmeOrderCalendarRange', [
+        function orderCalendarRange() {
+          /* implementation details */
+        }
+      ]);
   ```
 
   ```javascript
@@ -1043,41 +1037,24 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
    */
   angular
       .module('sales.widgets')
-      .directive('acmeSalesCustomerInfo', salesCustomerInfo);
-
-  function salesCustomerInfo() {
-      /* implementation details */
-  }
-  ```
-
-  ```javascript
-  /* recommended */
-  /* spinner.directive.js */
-
-  /**
-   * @desc spinner directive that can be used anywhere across apps at a company named Acme
-   * @example <div acme-shared-spinner></div>
-   */
-  angular
-      .module('shared.widgets')
-      .directive('acmeSharedSpinner', sharedSpinner);
-
-  function sharedSpinner() {
-      /* implementation details */
-  }
+      .directive('acmeSalesCustomerInfo', [
+        function salesCustomerInfo() {
+          /* implementation details */
+        }
+      ]);
   ```
 
     Note: There are many naming options for directives, especially since they can be used in narrow or wide scopes. Choose one that makes the directive and its file name distinct and clear. Some examples are below, but see the [Naming](#naming) section for more recommendations.
 
 ### Manipulate DOM in a Directive
-###### [Style [Y072](#style-y072)]
+<!-- ###### [Style [Y072](#style-y072)] -->
 
   - When manipulating the DOM directly, use a directive. If alternative ways can be used such as using CSS to set styles or the [animation services](https://docs.angularjs.org/api/ngAnimate), Angular templating, [`ngShow`](https://docs.angularjs.org/api/ng/directive/ngShow) or [`ngHide`](https://docs.angularjs.org/api/ng/directive/ngHide), then use those instead. For example, if the directive simply hides and shows, use ngHide/ngShow.
 
     *Why?*: DOM manipulation can be difficult to test, debug, and there are often better ways (e.g. CSS, animations, templates)
 
 ### Provide a Unique Directive Prefix
-###### [Style [Y073](#style-y073)]
+<!-- ###### [Style [Y073](#style-y073)] -->
 
   - Provide a short, unique and descriptive directive prefix such as `acmeSalesCustomerInfo` which would be declared in HTML as `acme-sales-customer-info`.
 
@@ -1086,7 +1063,7 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
     Note: Avoid `ng-` as these are reserved for Angular directives. Research widely used directives to avoid naming conflicts, such as `ion-` for the [Ionic Framework](http://ionicframework.com/).
 
 ### Restrict to Elements and Attributes
-###### [Style [Y074](#style-y074)]
+<!-- ###### [Style [Y074](#style-y074)] -->
 
   - When creating a directive that makes sense as a stand-alone element, allow restrict `E` (custom element) and optionally restrict `A` (custom attribute). Generally, if it could be its own control, `E` is appropriate. General guideline is allow `EA` but lean towards implementing as an element when it's stand-alone and as an attribute when it enhances its existing DOM element.
 
@@ -1105,20 +1082,20 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   /* avoid */
   angular
       .module('app.widgets')
-      .directive('myCalendarRange', myCalendarRange);
+      .directive('myCalendarRange', [
+          function myCalendarRange() {
+              var directive = {
+                  link: link,
+                  templateUrl: '/template/is/located/here.html',
+                  restrict: 'C'
+              };
+              return directive;
 
-  function myCalendarRange() {
-      var directive = {
-          link: link,
-          templateUrl: '/template/is/located/here.html',
-          restrict: 'C'
-      };
-      return directive;
-
-      function link(scope, element, attrs) {
-        /* */
-      }
-  }
+              function link(scope, element, attrs) {
+                /* */
+              }
+          } 
+      ]);
   ```
 
   ```html
@@ -1131,24 +1108,24 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   /* recommended */
   angular
       .module('app.widgets')
-      .directive('myCalendarRange', myCalendarRange);
+      .directive('myCalendarRange', [
+          function myCalendarRange() {
+              var directive = {
+                  link: link,
+                  templateUrl: '/template/is/located/here.html',
+                  restrict: 'EA'
+              };
+              return directive;
 
-  function myCalendarRange() {
-      var directive = {
-          link: link,
-          templateUrl: '/template/is/located/here.html',
-          restrict: 'EA'
-      };
-      return directive;
-
-      function link(scope, element, attrs) {
-        /* */
-      }
-  }
+              function link(scope, element, attrs) {
+                /* */
+              }
+          }
+      ]);
   ```
 
 ### Directives and ControllerAs
-###### [Style [Y075](#style-y075)]
+<!-- ###### [Style [Y075](#style-y075)] -->
 
   - Use `controller as` syntax with a directive to be consistent with using `controller as` with view and controller pairings.
 
