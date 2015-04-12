@@ -1323,7 +1323,7 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
 ## Manual Annotating for Dependency Injection
 
 ### UnSafe from Minification
-###### [Style [Y090](#style-y090)]
+<!-- ###### [Style [Y090](#style-y090)] -->
 
   - Avoid using the shortcut syntax of declaring dependencies without using a minification-safe approach.
 
@@ -1347,39 +1347,15 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
     ```
 
 ### Manually Identify Dependencies
-###### [Style [Y091](#style-y091)]
+<!-- ###### [Style [Y091](#style-y091)] -->
 
-  - Use `$inject` to manually identify your dependencies for Angular components.
-
-    *Why?*: This technique mirrors the technique used by [`ng-annotate`](https://github.com/olov/ng-annotate), which I recommend for automating the creation of minification safe dependencies. If `ng-annotate` detects injection has already been made, it will not duplicate it.
+  - Use the inline array annotation ([preferred](https://docs.angularjs.org/guide/di))
+  - **Always** use `ngStrictDi` with `ngApp` to avoid unexpected behaviour after minification
 
     *Why?*: This safeguards your dependencies from being vulnerable to minification issues when parameters may be mangled. For example, `common` and `dataservice` may become `a` or `b` and not be found by Angular.
 
-    *Why?*: Avoid creating in-line dependencies as long lists can be difficult to read in the array. Also it can be confusing that the array is a series of strings while the last item is the component's function.
-
     ```javascript
     /* avoid */
-    angular
-        .module('app')
-        .controller('Dashboard',
-            ['$location', '$routeParams', 'common', 'dataservice',
-                function Dashboard($location, $routeParams, common, dataservice) {}
-            ]);
-    ```
-
-    ```javascript
-    /* avoid */
-    angular
-      .module('app')
-      .controller('Dashboard',
-          ['$location', '$routeParams', 'common', 'dataservice', Dashboard]);
-
-    function Dashboard($location, $routeParams, common, dataservice) {
-    }
-    ```
-
-    ```javascript
-    /* recommended */
     angular
         .module('app')
         .controller('Dashboard', Dashboard);
@@ -1390,187 +1366,27 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
     }
     ```
 
-    Note: When your function is below a return statement the `$inject` may be unreachable (this may happen in a directive). You can solve this by moving the Controller outside of the directive.
-
-    ```javascript
-    /* avoid */
-    // inside a directive definition
-    function outer() {
-        var ddo = {
-            controller: DashboardPanelController,
-            controllerAs: 'self'
-        };
-        return ddo;
-
-        DashboardPanelController.$inject = ['logger']; // Unreachable
-        function DashboardPanelController(logger) {
-        }
-    }
-    ```
-
     ```javascript
     /* recommended */
-    // outside a directive definition
-    function outer() {
-        var ddo = {
-            controller: DashboardPanelController,
-            controllerAs: 'self'
-        };
-        return ddo;
-    }
-
-    DashboardPanelController.$inject = ['logger'];
-    function DashboardPanelController(logger) {
-    }
-    ```
-
-### Manually Identify Route Resolver Dependencies
-###### [Style [Y092](#style-y092)]
-
-  - Use `$inject` to manually identify your route resolver dependencies for Angular components.
-
-    *Why?*: This technique breaks out the anonymous function for the route resolver, making it easier to read.
-
-    *Why?*: An `$inject` statement can easily precede the resolver to handle making any dependencies minification safe.
-
-    ```javascript
-    /* recommended */
-    function config($routeProvider) {
-        $routeProvider
-            .when('/avengers', {
-                templateUrl: 'avengers.html',
-                controller: 'AvengersController',
-                controllerAs: 'self',
-                resolve: {
-                    moviesPrepService: moviePrepService
-                }
-            });
-    }
-
-    moviePrepService.$inject = ['movieService'];
-    function moviePrepService(movieService) {
-        return movieService.getMovies();
-    }
+    angular
+        .module('app')
+        .controller('Dashboard', [
+            '$location', '$routeParams', 'common', 'dataservice',
+            function Dashboard($location, $routeParams, common, dataservice) {}
+        ]);
     ```
 
 **[Back to top](#table-of-contents)**
 
 ## Minification and Annotation
-
-### ng-annotate
-###### [Style [Y100](#style-y100)]
-
-  - Use [ng-annotate](//github.com/olov/ng-annotate) for [Gulp](http://gulpjs.com) or [Grunt](http://gruntjs.com) and comment functions that need automated dependency injection using `/** @ngInject */`
-
-    *Why?*: This safeguards your code from any dependencies that may not be using minification-safe practices.
-
-    *Why?*: [`ng-min`](https://github.com/btford/ngmin) is deprecated
-
-    >I prefer Gulp as I feel it is easier to write, to read, and to debug.
-
-    The following code is not using minification safe dependencies.
-
-    ```javascript
-    angular
-        .module('app')
-        .controller('Avengers', Avengers);
-
-    /* @ngInject */
-    function Avengers(storageService, avengerService) {
-        var self = this;
-        self.heroSearch = '';
-        self.storeHero = storeHero;
-
-        function storeHero() {
-            var hero = avengerService.find(self.heroSearch);
-            storageService.save(hero.name, hero);
-        }
-    }
-    ```
-
-    When the above code is run through ng-annotate it will produce the following output with the `$inject` annotation and become minification-safe.
-
-    ```javascript
-    angular
-        .module('app')
-        .controller('Avengers', Avengers);
-
-    /* @ngInject */
-    function Avengers(storageService, avengerService) {
-        var self = this;
-        self.heroSearch = '';
-        self.storeHero = storeHero;
-
-        function storeHero() {
-            var hero = avengerService.find(self.heroSearch);
-            storageService.save(hero.name, hero);
-        }
-    }
-
-    Avengers.$inject = ['storageService', 'avengerService'];
-    ```
-
-    Note: If `ng-annotate` detects injection has already been made (e.g. `@ngInject` was detected), it will not duplicate the `$inject` code.
-
-    Note: When using a route resolver you can prefix the resolver's function with `/* @ngInject */` and it will produce properly annotated code, keeping any injected dependencies minification safe.
-
-    ```javascript
-    // Using @ngInject annotations
-    function config($routeProvider) {
-        $routeProvider
-            .when('/avengers', {
-                templateUrl: 'avengers.html',
-                controller: 'Avengers',
-                controllerAs: 'self',
-                resolve: { /* @ngInject */
-                    moviesPrepService: function(movieService) {
-                        return movieService.getMovies();
-                    }
-                }
-            });
-    }
-    ```
-
-    > Note: Starting from Angular 1.3 you can use the [`ngApp`](https://docs.angularjs.org/api/ng/directive/ngApp) directive's `ngStrictDi` parameter to detect any potentially missing magnification safe dependencies. When present the injector will be created in "strict-di" mode causing the application to fail to invoke functions which do not use explicit function annotation (these may not be minification safe). Debugging info will be logged to the console to help track down the offending code. I prefer to only use `ng-strict-di` for debugging purposes only.
-    `<body ng-app="APP" ng-strict-di>`
-
-### Use Gulp or Grunt for ng-annotate
-###### [Style [Y101](#style-y101)]
-
-  - Use [gulp-ng-annotate](https://www.npmjs.org/package/gulp-ng-annotate) or [grunt-ng-annotate](https://www.npmjs.org/package/grunt-ng-annotate) in an automated build task. Inject `/* @ngInject */` prior to any function that has dependencies.
-
-    *Why?*: ng-annotate will catch most dependencies, but it sometimes requires hints using the `/* @ngInject */` syntax.
-
-    The following code is an example of a gulp task using ngAnnotate
-
-    ```javascript
-    gulp.task('js', ['jshint'], function() {
-        var source = pkg.paths.js;
-
-        return gulp.src(source)
-            .pipe(sourcemaps.init())
-            .pipe(concat('all.min.js', {newLine: ';'}))
-            // Annotate before uglify so the code get's min'd properly.
-            .pipe(ngAnnotate({
-                // true helps add where @ngInject is not used. It infers.
-                // Doesn't work with resolve, so we must be explicit there
-                add: true
-            }))
-            .pipe(bytediff.start())
-            .pipe(uglify({mangle: true}))
-            .pipe(bytediff.stop())
-            .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest(pkg.paths.dev));
-    });
-
-    ```
-
+TODO
+<!-- TODO : write concat\uglify gulp -->
 **[Back to top](#table-of-contents)**
 
 ## Exception Handling
 
 ### decorators
-###### [Style [Y110](#style-y110)]
+<!-- ###### [Style [Y110](#style-y110)] -->
 
   - Use a [decorator](https://docs.angularjs.org/api/auto/service/$provide#decorator), at config time using the [`$provide`](https://docs.angularjs.org/api/auto/service/$provide) service, on the [`$exceptionHandler`](https://docs.angularjs.org/api/ng/service/$exceptionHandler) service to perform custom actions when exceptions occur.
 
@@ -1582,36 +1398,37 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
     /* recommended */
     angular
         .module('blocks.exception')
-        .config(exceptionConfig);
-
-    exceptionConfig.$inject = ['$provide'];
-
-    function exceptionConfig($provide) {
-        $provide.decorator('$exceptionHandler', extendExceptionHandler);
-    }
-
-    extendExceptionHandler.$inject = ['$delegate', 'toastr'];
-
-    function extendExceptionHandler($delegate, toastr) {
-        return function(exception, cause) {
-            $delegate(exception, cause);
-            var errorData = {
-                exception: exception,
-                cause: cause
-            };
-            /**
-             * Could add the error to a service's collection,
-             * add errors to $rootScope, log errors to remote web server,
-             * or log locally. Or throw hard. It is entirely up to you.
-             * throw exception;
-             */
-            toastr.error(exception.msg, errorData);
-        };
-    }
+        .config([
+            '$provide',
+            function exceptionConfig($provide) {
+                $provide.decorator('$exceptionHandler', [
+                    '$delegate', 'toastr',
+                    function extendExceptionHandler($delegate, toastr) {
+                        return function(exception, cause) {
+                            $delegate(exception, cause);
+                            var errorData = {
+                                exception: exception,
+                                cause: cause
+                            };
+                            /**
+                             * Could add the error
+                             * to a service's collection,
+                             * add errors to $rootScope,
+                             * log errors to remote web server,
+                             * or log locally. 
+                             * Or throw hard. It is entirely up to you.
+                             * throw exception;
+                             */
+                            toastr.error(exception.msg, errorData);
+                        };
+                    }
+                ]);
+            }
+        ]);
     ```
 
 ### Exception Catchers
-###### [Style [Y111](#style-y111)]
+<!-- ###### [Style [Y111](#style-y111)] -->
 
   - Create a factory that exposes an interface to catch and gracefully handle exceptions.
 
@@ -1623,26 +1440,26 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
     /* recommended */
     angular
         .module('blocks.exception')
-        .factory('exception', exception);
+        .factory('exception', [
+            'logger',
+            function exception(logger) {
+                function ExceptionLogger() {}
+                ExceptionLogger.prototype = {
+                    catcher: catcher
+                };
+                return new ExceptionLogger();
 
-    exception.$inject = ['logger'];
-
-    function exception(logger) {
-        var service = {
-            catcher: catcher
-        };
-        return service;
-
-        function catcher(message) {
-            return function(reason) {
-                logger.error(message, reason);
-            };
-        }
-    }
+                function catcher(message) {
+                    return function(reason) {
+                        logger.error(message, reason);
+                    };
+                }
+            }
+        ]);
     ```
 
 ### Route Errors
-###### [Style [Y112](#style-y112)]
+<!-- ###### [Style [Y112](#style-y112)] -->
 
   - Handle and log all routing errors using [`$routeChangeError`](https://docs.angularjs.org/api/ngRoute/service/$route#$routeChangeError).
 
