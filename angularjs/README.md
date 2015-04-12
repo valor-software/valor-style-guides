@@ -783,7 +783,7 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
   This way bindings are mirrored across the host object, primitive values cannot update alone using the revealing module pattern.
 
 ### Function Declarations to Hide Implementation Details
-###### [Style [Y053](#style-y053)]
+<!-- ###### [Style [Y053](#style-y053)] -->
 
   - Use function declarations to hide implementation details. Keep your accessible members of the factory up top. Point those to function declarations that appears later in the file. For more details see [this post](http://www.johnpapa.net/angular-function-declarations-function-expressions-and-readable-code).
 
@@ -847,14 +847,16 @@ Original: [Style [Y010](https://github.com/johnpapa/angular-styleguide#style-y01
       var isPrimed = false;
       var primePromise;
 
-      var service = {
+      function DataService() {}
+
+      DataService.prototype = {
           getAvengersCast: getAvengersCast,
           getAvengerCount: getAvengerCount,
           getAvengers: getAvengers,
           ready: ready
       };
 
-      return service;
+      return new DataService();
 
       ////////////
 
