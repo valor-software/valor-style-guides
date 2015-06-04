@@ -375,3 +375,9 @@ At GitHub:
   ```
 
 5. Delete `release` branch and use tags
+
+## Use cases
+### Remove all local branches
+```bash
+  git branch -l | egrep -v "^\*|master|development" | xargs -n 1 git branch -D
+```
