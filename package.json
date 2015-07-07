@@ -1,0 +1,26 @@
+{
+  "name": "valor-style-guides",
+  "version": "1.0.0",
+  "description": "Different style guides applied by Valor Software",
+  "main": "gulpfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "gulp lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valor-software/valor-style-guides.git"
+  },
+  "author": "Dmitriy Shekhovtsov <valorkin@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/valor-software/valor-style-guides/issues"
+  },
+  "homepage": "https://github.com/valor-software/valor-style-guides",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^0.15.0"
+  }
+}
