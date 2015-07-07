@@ -1,6 +1,6 @@
 ## Company-shared style guides and practices
 
-### Must be read and applied: 
+### Must be read and applied:
 - [node.js style guide](nodejs/node-style-guide.md)
 - [angular.js style guide](angularjs/README.md)
 - [commit message guideline](contribution/contribution-guidelines.md)
@@ -28,5 +28,22 @@ gulp.task('lint', function () {
 ### Force testing linting:
 * [pre-commit](https://www.npmjs.com/package/pre-commit)
 
-### Credits: 
+### Credits:
 * [eslint docs](http://eslint.org/docs/developer-guide/contributing.html)
+
+
+----
+
+
+Copyright (c) Year(s), Valor Software <valorkin@gmail.com>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
