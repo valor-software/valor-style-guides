@@ -22,8 +22,8 @@ The `Tag` is one of the following:
 
 `Message` is short description of what have been done
 `Action` - depends on used task tracking, but in general case:
-* `refs` - link commit to task
-* `fixes` - closes task, moving it to testing state
+* `refs` or `ref` - link commit to task
+* `fixes` or `fix` - closes task, moving it to testing state
 
 The message summary should be a one-sentence description of the change. The issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `[refs #1234]` instead of `[fixes #1234]`.
 
