@@ -4,7 +4,7 @@
 - [node.js style guide](nodejs/node-style-guide.md)
 - [angular.js style guide](angularjs/README.md)
 - [commit message guideline](contribution/contribution-guidelines.md)
-
+- [git flow](gitflow/readme.md)
 - Code linting: [`eslint`](https://github.com/eslint/eslint)
 
 
