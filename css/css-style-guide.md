@@ -1,10 +1,10 @@
 # Css Style Guide
 
-# 21 CSS-selectors, about which is useful to remember
+# 21 CSS-selectors, which is useful to remember
 
-1. *
+## *
 
-The symbol asterisk selects all elements on the page.
+The symbol # selects all elements on the page.
 
 ```css
 * {
@@ -21,7 +21,7 @@ Also, the * symbol can be used for the children of the object.
 }
 ```
 
-2. #X
+## #X
 
 The symbol of the lattice enables us to select elements by id.
 
@@ -32,9 +32,9 @@ The symbol of the lattice enables us to select elements by id.
 }
 ```
 
-** On page should not be two identical id. **
+**On page should not be two identical id.**
 
-3. X > Y
+* ```X > Y```
 
 Selects only the immediate child of a parent element.
 
@@ -44,7 +44,7 @@ div > p {
 }
 ```
 
-4. X + Y
+## X + Y
 
 This is referred to as an adjacent selector. It will select only the element that is immediately preceded by the former element.
 
@@ -54,7 +54,7 @@ ul + a {
 }
 ```
 
-5. X ~ Y
+## X ~ Y
 
 A general sibling combinator selects instances of an element appearing anywhere after another element within the same parent.
 
@@ -64,19 +64,19 @@ p ~ span {
 }
 ```
 
-6. X[attributeName]
+* ```X[attributeName]```
 
 Allows to select tags that has an attributes. While it can match the class and the id selector, its specificity value is lower.
 
 ```css
-button[attributeName] {
+button[type] {
    color: green;
 }
 ```
 
-7. X[attributeName="val"]
+## X[attributeName="val"]
 
-The following style rule selects any element with an "attr" attribute (set to any value).
+The following style rule selects any element with an "href" attribute whose value equally "http://www.codeharmony.ru".
 
 ```css
 a[href="http://www.codeharmony.ru"] {
@@ -84,9 +84,9 @@ a[href="http://www.codeharmony.ru"] {
 }
 ```
 
-8. X[attributeName^="val"]
+## X[attributeName^="val"]
 
-The following style rule selects any element with an "attr" attribute whose value begins with "http".
+The following style rule selects any element with an "href" attribute whose value begins with "http".
 
 ```css
 a[href^='http'] {
@@ -94,9 +94,9 @@ a[href^='http'] {
 }
 ```
 
-9. X[attributeName="val"]
+## X[attributeName="val"]
 
-The following style rule selects any element with an "attr" attribute whose value ends with ".jpg".
+The following style rule selects any element with an "src" attribute whose value ends with ".jpg".
 
 ```css
 img[src$=".jpg"] {
@@ -104,9 +104,9 @@ img[src$=".jpg"] {
 }
 ```
 
-10. X[attributeName*="val"]
+## X[attributeName*="val"]
 
-The following style rule selects any element with an "attr" attribute whose value includes the substring "goo".
+The following style rule selects any element with an "href" attribute whose value includes the substring "goo".
 
 ```css
 a[href*="goo"] {
@@ -114,7 +114,7 @@ a[href*="goo"] {
 }
 ```
 
-11. X:checked
+## X:checked
 
 The :checked selector applies to toggable elements (e.g. radio buttons or checkboxes) that are toggled on.
 
@@ -124,7 +124,7 @@ input[type=radio]:checked {
 }
 ```
 
-12. X:after
+## X:after
 
 Creates a pseudo-element, which allows you to insert content onto a page from CSS after the selected element.
 
@@ -136,7 +136,7 @@ Creates a pseudo-element, which allows you to insert content onto a page from CS
 }
 ```
 
-13. X:before
+## X:before
 
 Creates a pseudo-element, which allows you to insert content onto a page from CSS before the selected element.
 
@@ -148,9 +148,9 @@ Creates a pseudo-element, which allows you to insert content onto a page from CS
 }
 ```
 
-14. X:not(...)
+## X:not(...)
 
-The negation pseudo-class, :not(X), is a functional notation taking a selector (excluding the negation pseudo-class itself) as an argument. It represents an element that is not represented by its argument.
+The ":not(...)" sets the sampling rules for the elements that don't contain the specified selector.
 
 ```css
 .p:not(.error) {
@@ -158,9 +158,9 @@ The negation pseudo-class, :not(X), is a functional notation taking a selector (
 }
 ```
 
-15. X:first-line
+## X:first-line
 
-Represents the first line of an element. Note that the content of the first line varies depending on the available width and the styling of text (size, spacing).
+The ::first-line selector is used to add a style to the first line of the specified selector.
 
 ```css
 p:first-line {
@@ -168,9 +168,9 @@ p:first-line {
 }
 ```
 
-16. X:first-letter
+## X:first-letter
 
-Represents the first letter of an element, if it is not preceded by any other content (such as images or inline tables) on its line.
+The ::first-letter selector is used to add a style to the first letter of the specified selector.
 
 ```css
 p:first-letter {
@@ -178,13 +178,11 @@ p:first-letter {
 }
 ```
 
-17. X:nth-child(n)
+## X:nth-child(n)
 
-This selector enables you to refer to a specific serial child elements
+The :nth-child(n) selector matches every element that is the nth-child, regardless of type, of its parent.
 
-The parameter takes an integer. If you choose the 2nd item in the list, you need to use a construction: li: nth-child (2).
-
-We can even select group of child elements. For example, to select every fourth item in the list, you need to use a construction: li: nth-child (4n).
+n can be a number, a keyword, or a formula.
 
 ```css
 li:nth-child(3) {
@@ -192,18 +190,22 @@ li:nth-child(3) {
 }
 ```
 
-5         5, ...
-2n        2, 4, 6, 8, 10, ...
-2n+1      1, 3, 5, 7, 9, ...
-3n+2      2, 5, 8, 11, 14, ...
--n+3      3, 2, 1, ...
-5n-2      3, 8, 13, 18, 23, ...
-even      2, 4, 6, 8, 10, ...
-odd       1, 3, 5, 7, 9, ...
+Value   | Non elements
+------- | ------------
+5       | 5
+2n      | 2, 4, 6, 8, 10, ...
+2n+1    | 1, 3, 5, 7, 9, ...
+3n+2    | 2, 5, 8, 11, 14, ...
+-n+3    | 3, 2, 1, ...
+5n-2    | 3, 8, 13, 18, 23, ...
+even    | 2, 4, 6, 8, 10, ...
+odd     | 1, 3, 5, 7, 9, ...
 
-18. X:nth-last-child(n)
+## X:nth-last-child(n)
 
-The :nth-last-child(an+b) pseudo-class notation represents an element that has an+b-1 siblings after it in the document tree, for any positive integer or zero value of n, and has a parent element.
+The :nth-last-child(n) selector matches every element that is the nth child, regardless of type, of its parent, counting from the last child.
+
+n can be a number, a keyword, or a formula.
 
 ```css
 li:nth-last-child(2) {
@@ -211,7 +213,7 @@ li:nth-last-child(2) {
 }
 ```
 
-19. X:first-child
+## X:first-child
 
 The :first-child pseudo-class represents an element that is the first child of some other element.
 
@@ -221,7 +223,7 @@ li:first-child {
 }
 ```
 
-20. X:last-child
+## X:last-child
 
 The :last-child pseudo-class represents an element that is the last child of some other element.
 
@@ -231,9 +233,9 @@ li:last-child {
 }
 ```
 
-21. X:empty
+## X:empty
 
-The :empty pseudo-class represents an element that has no children at all. In terms of the document tree, only element nodes and content nodes whose data has a non-zero length must be considered as affecting emptiness; comments, processing instructions, and other nodes must not affect whether an element is considered empty or not.
+The :empty selector matches every element that has no children (including text nodes).
 
 ```css
 div:empty {
