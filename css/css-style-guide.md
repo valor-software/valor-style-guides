@@ -4,7 +4,7 @@
 
 ## *
 
-The symbol # selects all elements on the page.
+The symbol * selects all elements on the page.
 
 ```css
 * {
@@ -13,7 +13,7 @@ The symbol # selects all elements on the page.
 }
 ```
 
-Also, the * symbol can be used for the children of the object.
+Also, the symbol * can be used for the children of the object.
 
 ```css
 #container * {
@@ -21,9 +21,9 @@ Also, the * symbol can be used for the children of the object.
 }
 ```
 
-## #X
+## \#X
 
-The symbol of the lattice enables us to select elements by id.
+The symbol \# enables us to select elements by id.
 
 ```css
 #container {
@@ -34,7 +34,7 @@ The symbol of the lattice enables us to select elements by id.
 
 **On page should not be two identical id.**
 
-* ```X > Y```
+## X > Y
 
 Selects only the immediate child of a parent element.
 
@@ -64,7 +64,7 @@ p ~ span {
 }
 ```
 
-* ```X[attributeName]```
+## X[attributeName]
 
 Allows to select tags that has an attributes. While it can match the class and the id selector, its specificity value is lower.
 
