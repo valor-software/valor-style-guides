@@ -5,6 +5,8 @@
 Most important thing you should take from this guide is an understanding that `git`, `Github` and `gitflow` is only a `tools` to achieve your/project goals!
   Goal of this guide is to explain `gitflow`, show pros and cons of this approach, and how to prevent possible issues.
 
+If you are new to git or not confident enough in how it works, please, have a look at [Resources](#resources) section.
+
 ### Meaning
 
 So the very important thing is to understand main concepts:
@@ -40,6 +42,7 @@ Gitflow is a way to develop things in a team and has it strong and weak parts.
 8. [Feature branches flow](#feature-branches-flow)
 9. [Hotfix branches flow](#hotfix-branches-flow)
 10. [Release branches flow](#release-branches-flow)
+11. [Resources](#resources)
 
 ## Required readings
 
@@ -381,3 +384,7 @@ At GitHub:
 ```bash
   git branch -l | egrep -v "^\*|master|development" | xargs -n 1 git branch -D
 ```
+
+## Resources
+
+1. [A Visual Git Reference](http://marklodato.github.io/visual-git-guide/index-en.html)
