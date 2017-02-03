@@ -2,7 +2,7 @@
 
 ## Overview
 
-The aim of this guide is to give the understanding that `git`, `GitHub` and `gitflow` are only a `tools` to achieve your/project goals,to explain `gitflow`, show pros and cons of our approach, and how to prevent and evade possible issues.
+The aim of this guide is to give the understanding that `git`, `GitHub` and `gitflow` are only a `tools` to achieve your/project goals, to show pros and cons of our approach, and how to prevent and evade possible issues.
 
 If you are new to git or not confident enough in how it works, please, refer to any basic git introduction. Our advice is to google up “A Visual Git Reference” and get back here once you’re done!
 
@@ -15,7 +15,7 @@ So the very important thing is to understand main concepts:
 
 ### Pros and cons
 
-This ‘git flow’ is our vision on perfect way to develop things. But there is no ‘ideal’ way of development, you know, so let’s look at strong and weak parts of it.
+This ‘git flow’ is our vision on the perfect way to develop things. But there is no ‘ideal’ way of development, you know, so let’s look at strong and weak parts of it.
 
 #### Pros:
 * Separation of concepts - each branch has clear purpose and flow how to work with it;
@@ -27,7 +27,7 @@ This ‘git flow’ is our vision on perfect way to develop things. But there is
 #### Cons:
 * "Scary merge" - well-illustrated problem by Martin Fowler (look him up, he’s a cool guy), to avoid it keep semantic changes as separate branches (explained later);
 * "Afraid of refactoring" - semantic changes (refactoring, renaming) leads to "scary merges", so try to do it when code targeted by refactoring is not changed by any other branches;
-* Dependencies (libraries) update - makes Pull Requests view polluted by library files and in general useless, so keep these updates as a separate branches;
+* Dependencies (libraries) update - makes Pull Requests view polluted by library files and in general useless, so keep these updates as separate branches;
 
 ##Table of contents
 1. [Required reading](#required-readings)
@@ -98,7 +98,7 @@ regexp: `/[a-z0-9\-]+/`
 * All pull request should satisfy Definition of Done (DoD) and Acceptance Criteria used by project's team
 * Commits in pull request should follow to corresponding code conventions
 
-**Important**: keep semantic changes (refactoring, renaming) and library updates as a separate pull requests
+**Important**: keep semantic changes (refactoring, renaming) and library updates as separate pull requests
 
 ## Merging via Pull Requests
 
@@ -111,7 +111,7 @@ This flow will be used almost by any branch flow, so pay attention to it!
   * assign it to yourself
   * add corresponding labels
 
-2. When you done with changes in branch:
+2. When you are done with changes in the branch:
   * *Optional*: you can reset your commits and arrange them into meaningful commits in interactive way `git rebase -i`
 
   * Rebase your branch on top of `target` branch, which is usually `development` one.
@@ -143,7 +143,7 @@ This flow will be used almost by any branch flow, so pay attention to it!
       ```bash
       # abort rebase
       git rebase --abort
-      # merge latest development into your branch
+      # merge the latest development into your branch
       git merge origin/development
       ```
 
@@ -157,7 +157,7 @@ This flow will be used almost by any branch flow, so pay attention to it!
 4. When Pull Request was approved by at least 2 team members
 
   * *Note*: you can use :+1: as an approvement
-  * *Note*: reviewer, who gave second approvement, can send a note to `PR` author, to make things go faster
+  * *Note*: reviewer, who gave the second approvement, can send a note to `PR` author, to make things go faster
   * When pull request got 2 approvements it should be merged by **code author**
 
 <!--5. Feature branch should be deleted while merging `PR`-->
@@ -165,8 +165,8 @@ This flow will be used almost by any branch flow, so pay attention to it!
 ## Commits guideline
 <!-- Copyright (c) 2013 Nicholas C. Zakas. All rights reserved. -->
 **Important**:
-* commits without task id (link for asana) are not allowed (except docs and libs version udpates)
-* keep application version bump as a separate commits
+* commits without task id (link for asana) are not allowed (except docs and libs version updates)
+* keep application version bump as separate commits
 
 Make the changes to the code and tests and then commit to your branch. Be sure to follow the commit message conventions.
 
@@ -277,7 +277,7 @@ At GitHub:
 
 * should be used only to fix bugs at production
 * `hotfix` branch should be started from `master` and must be merged back to `master` and `development`
-* `hotfix` branch may be started from `release` branch and than must be merged back to `release`, `master` and `development` branches
+* `hotfix` branch may be started from `release` branch and then must be merged back to `release`, `master` and `development` branches
 * **Important**: `hotfix` branch name contains full version number, sample: `hotfix-1.2.2` and **not** `release-1.2`
 * **Important**: each `hotfix` should increase [PATCH](http://semver.org/) version of project
 
@@ -325,10 +325,10 @@ At GitHub:
 ## Release branches flow
 
 * should be used when all features required by next release already in `development` branch
-* any `realese` branch should start from `development` branch
+* any `release` branch should start from `development` branch
 * starting `release` branch unblocks `development` for new features development
 * merging `release` branch to `master` automatically means new release to production, and could be used as an event for continuous integration
-* **Important**: all features planed for next release **should not** be merged in `development` until current `release` branch created
+* **Important**: all features planned for next release **should not** be merged in `development` until current `release` branch created
 * **Important**: `release` branch name contains only MAJOR and MINOR version number, sample: `release-1.2` and **not** `release-1.2.3`. PATCH version of project has to be increased only by `hotfix` branches
 
 1. Create `release` branch from `development` head
@@ -351,10 +351,10 @@ At GitHub:
   git push origin release-1.2
   ```
 
-2. Deploy to staging, test on real data, test on applience to Definirion of Done, Acceptance Criteria, Code conventions, etc...
+2.  Deploy to staging, test on real data, test on the appliance to Definition of Done, Acceptance Criteria, Code conventions, etc...
 
-3. When `release` fully tested and ready for production, start Pull Request to `master` brach
-  * *Note*: if you have Continuous Integration, closing Pull Request will start deploy to production, so be ready for fun and choose proper time (not friday evening!)
+3. When `release` fully tested and ready for production, start Pull Request to `master` branch
+  * *Note*: if you have Continuous Integration, closing Pull Request will start to deploy to production, so be ready for fun and choose a proper time (not a Friday evening!)
 
 4. Finish `release`
   * *Note*: could be merge conflicts
@@ -365,7 +365,7 @@ At GitHub:
   git pull origin master
   # add release tag to merge commit
   git tag -a 1.2
-  # push tag to repositori
+  # push tag to repository
   git push origin master --tags
 
   # merge release back to development
