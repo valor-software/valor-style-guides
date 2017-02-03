@@ -1,34 +1,33 @@
-# On boarding guide to git flow used by Valor Software
+# Understanding the Valor Software GitHub Flow
 
 ## Overview
 
-Most important thing you should take from this guide is an understanding that `git`, `Github` and `gitflow` is only a `tools` to achieve your/project goals!
-  Goal of this guide is to explain `gitflow`, show pros and cons of this approach, and how to prevent possible issues.
+The aim of this guide is to give the understanding that `git`, `GitHub` and `gitflow` are only a `tools` to achieve your/project goals,to explain `gitflow`, show pros and cons of our approach, and how to prevent and evade possible issues.
 
-If you are new to git or not confident enough in how it works, please, have a look at [Resources](#resources) section.
+If you are new to git or not confident enough in how it works, please, refer to any basic git introduction. Our advice is to google up “A Visual Git Reference” and get back here once you’re done!
 
 ### Meaning
 
 So the very important thing is to understand main concepts:
-- `feature` - is a complete peace of functionality, it could be a new feature, hotfix, doc, test, refactoring, etc...
-- `branches` - should serve to separate your work by type of goals you want to achieve or to react on issues in production, like `hotfixes`, with corresponding flows and actions
-- `pull request` - is designed to share the knowledge of what you done with team, to take in count code review comments as a source of knowledge sharing,  and last and not least is to check that you did not forgot to add anything :)
+- `feature` - is a complete piece of functionality, it could be a new feature, hotfix, doc, test, refactoring, and so on;
+- `branches` - should serve to separate your work by type of goals you want to achieve or to react on issues in production, like `hotfixes`, with corresponding flows and actions;
+- `pull request` -  let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before the changes are merged into the repository :)
 
 ### Pros and cons
 
-Gitflow is a way to develop things in a team and has it strong and weak parts.
+This ‘git flow’ is our vision on perfect way to develop things. But there is no ‘ideal’ way of development, you know, so let’s look at strong and weak parts of it.
 
 #### Pros:
-* separation of concepts - each branch has clear purpose and flow how to work with it
-* confidence - at any given point of time `master` and `release` branches are stable and ready for production
-* isolation - you develop independent and isolated feature, so you can focus on problem
-* continuous processes - continuous deployment and testing for feature branches, continuous integration for `master` branch
-* code review - pull request allows to increase code quality and knowledge rotation in team, and as a consequence reduce "bus factor"
+* Separation of concepts - each branch has clear purpose and flow how to work with it;
+* Confidence - at any given point of time `master` and `release` branches are stable and ready for production;
+* Isolation - you develop independent and isolated feature, so you can focus on problem;
+* Continuous processes - continuous deployment and testing for feature branches, continuous integration for `master` branch;
+* Code review - pull request allows to increase code quality and knowledge rotation in team, and as a consequence reduce "bus factor";
 
 #### Cons:
-* "scary merge" - well illustrated problem by Fowler, to avoid it keep semantic changes as separate branches(explained later)
-* "afraid of refactoring" - semantic changes(refacroring, renaming) leads to "scary merges", so try to do it when code targeted by refactoring is not changed by any other branches
-* dependencies(libraries) update - makes Pull Requests view polluted by library files and in general useless, so keep this updates as a separate branches
+* "Scary merge" - well-illustrated problem by Martin Fowler (look him up, he’s a cool guy), to avoid it keep semantic changes as separate branches (explained later);
+* "Afraid of refactoring" - semantic changes (refactoring, renaming) leads to "scary merges", so try to do it when code targeted by refactoring is not changed by any other branches;
+* Dependencies (libraries) update - makes Pull Requests view polluted by library files and in general useless, so keep these updates as a separate branches;
 
 ##Table of contents
 1. [Required reading](#required-readings)
@@ -42,11 +41,10 @@ Gitflow is a way to develop things in a team and has it strong and weak parts.
 8. [Feature branches flow](#feature-branches-flow)
 9. [Hotfix branches flow](#hotfix-branches-flow)
 10. [Release branches flow](#release-branches-flow)
-11. [Resources](#resources)
 
 ## Required readings
 
-Take attention to Feature Branching with Pull Requests
+Pay attention to Feature Branching with Pull Requests
 
 1. [Try github](https://try.github.io/levels/1/challenges/1)
 2. [Atlassian git tutorial](https://www.atlassian.com/git/tutorials/setting-up-a-repository/ ) (except Migrate to Git from SVN)
@@ -63,48 +61,48 @@ Take attention to Feature Branching with Pull Requests
 
 ## Branches
 
-- `master` - always **stable** and **release ready** branch
-- `development` - default branch, contains latest **features** and **fixes**, on which developers should orient
-- `feature-*` - branches for feature development and dependencies update
-- `realese-*` - branches for release(production) version
-- `hotfix-*` - branches for release `fixes`
-- `refactor-*` - branches for semantic changes
+- `master` - always **stable** and **release ready** branch;
+- `development` - default branch, contains latest **features** and **fixes**, on which developers should orient;
+- `feature-*` - branches for feature development and dependencies update;
+- `realese-*` - branches for release(production) version;
+- `hotfix-*` - branches for release `fixes`;
+- `refactor-*` - branches for semantic changes;
 
 ## Environments
 
-- `master` - production
+- `master` - production;
 - `development` - staging
-- `release-*` - for history reasons or supporting several versions at production
-- `feature-*` - continuous deployment to test environment
-- `hotfix-*` - development (local)
+- `release-*` - for history reasons or supporting several versions at production;
+- `feature-*` - continuous deployment to test environment;
+- `hotfix-*` - development (local);
 
 
 ## Branch name conventions
 
-Branch names should contain only `lowercase letters`, `numbers` and `hyphens`,
+Branch names should only contain  `lowercase letters`, `numbers` and `hyphens`,
 regexp: `/[a-z0-9\-]+/`
 
-**Important** : why not with slashes, like in git flow by Vincent Driessen? -
- because of continuous deployment to corresponding subdomain,
+**Important** : Why not with slashes, you might ask, like in other git flow by, for
+ example, Vincent Driessen? Because of continuous deployment to the 
  for example: `feature-ui-auth` will be deployed to `ui-auth.project.com`,
  this is why we should use only symbols allowed for DNS names
 
 ## Pull Requests
 
-* For each pull request it should be an issue (except documentation)
-* *Note*: issue should answer on: what you should do and why?
+* For each pull request, there’s should be created a corresponding ‘issue’ (except for documentation);
+* *Note*: issue should answer on: what you should do and why?;
 * Pull Request must have a description, which should explain what was done and how it affects project
-* *Note*: Pull request description should answer to: what you did and how it affects project
+* *Note*: Pull Request must have a description, which explains what was done and how it affects the project;
 * Fixed issue has to be mentioned at the end of Pull Request Name: "`[fixes #123]`" (same for commit names)
 * Pull Requests should be small and focused (see "Commits guideline")
-* All pull request should satisfy Definition of Done(DoD) and Acceptance Criteria used by project's team
+* All pull request should satisfy Definition of Done (DoD) and Acceptance Criteria used by project's team
 * Commits in pull request should follow to corresponding code conventions
 
-**Important**: keep semantic changes(refactoring, renaming) and library updates as a separate pull requests
+**Important**: keep semantic changes (refactoring, renaming) and library updates as a separate pull requests
 
 ## Merging via Pull Requests
 
-This flow will be used almost by any branch flow, so read it carefully
+This flow will be used almost by any branch flow, so pay attention to it!
 
 1. [Create](https://help.github.com/articles/creating-a-pull-request/) `PR` from `current` branch to `target` branch
 
@@ -114,9 +112,9 @@ This flow will be used almost by any branch flow, so read it carefully
   * add corresponding labels
 
 2. When you done with changes in branch:
-  * *Optional*: you can reset your commits and arrange them in meaningful commits with interactive `git rebase -i`
+  * *Optional*: you can reset your commits and arrange them into meaningful commits in interactive way `git rebase -i`
 
-  * Rebase your branch on top of `target` branch, usually `development`
+  * Rebase your branch on top of `target` branch, which is usually `development` one.
 
     ```bash
     # checkout current-branch
@@ -149,11 +147,12 @@ This flow will be used almost by any branch flow, so read it carefully
       git merge origin/development
       ```
 
-  * Link to `PR` should be sent to your team chat with code review request (to make things move faster)
+  * Link to PR should be sent to your team chat with code review request (note, that code review is mandatory, it really helps to make things move faster);
+
 
   *Sample*: "Please review my Pull Request: https://github.com/org/project/pull/1"
 
-3. If there are some code review notes which should be applied, apply them and repeat from step `2`
+3. If there are some code review notes which should be applied, apply them and goto step `2`;
 
 4. When Pull Request was approved by at least 2 team members
 
@@ -185,8 +184,8 @@ The `Tag` is one of the following:
 * `Build` - changes to build process only.
 * `New` - implemented a new feature.
 * `Upgrade` - for a dependency upgrade.
+* `Message` is short description of what have been done
 
-`Message` is short description of what have been done
 `Action` - depends on used task tracking, but in general case:
 * `refs` - link commit to task
 * `fixes` - closes task, moving it to testing state
@@ -201,8 +200,7 @@ Build: Update Travis to only test Node 0.10 [refs #734]
 Fix: Semi rule incorrectly flagging extra semicolon [fixes #840]
 Upgrade: Esprima to 1.2, switch to using Esprima comment attachment [fixes #730]
 ```
-
-The commit message format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
+The commit message format is important because these messages are used to create a changelog later for each release. The tag and issue number help to create more consistent and useful changelogs.
 
 ## Init repository with main branches
 
@@ -384,7 +382,3 @@ At GitHub:
 ```bash
   git branch -l | egrep -v "^\*|master|development" | xargs -n 1 git branch -D
 ```
-
-## Resources
-
-1. [A Visual Git Reference](http://marklodato.github.io/visual-git-guide/index-en.html)
