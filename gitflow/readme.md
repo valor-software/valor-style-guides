@@ -1,35 +1,58 @@
 # Understanding the Valor Software GitHub Flow
 
-## Overview
+## Introduction
+First things first, why do we even need workflow for working with git?
+To answer this question, we need to understand following:
+ - What problem should workflow solve for our team?
+ - What problems we solve by organizing our commits, and how we produce releases?
+ - Who is responsible for the code in our repository and for each specific editing?
+ - What procedure should be organized for "external" contributor's edits?
 
+Due to git distributed nature, it makes it very flexible to organize the work of separate teams. At the same time, this flexibility may lead to a variety of integration errors of the new code into the main development branch and therefore slow down "release of the release" of our product.
+
+The first thing that git offers us  - the opportunity to work with "fork", taking the data from a remote repository and sending to the other. The basic scheme of the organization of this work is described in the [«Pro Git»](https://git-scm.com/book/en/v2).
+
+But often, especially on small projects, such complexity in the organization of the repositories is not needed, so we can use "centralized scheme." But the rules of the development and rules of third-party edits adoption is still needed because the organization of the history of the development is comparable with the organization of the code in the project - if you do not pay attention to this, soon nobody will be able to figure it out.
+
+## Why care about the history?
+
+Knowledge of how to deal with the development history is essential and helps to understand how to use our code by ourselves and 3rd-party users. In particular, to answer the questions:
+- How do I participate in the release cycle?
+- Which version is now stable?
+- When and who broke the code?
+
+Workflow allows us to answer those questions in advance.
+
+## Conclusion 
 The aim of this guide is to give the understanding that `git`, `GitHub` and `gitflow` are only a `tools` to achieve your/project goals, to show pros and cons of our approach, and how to prevent and evade possible issues.
 
 If you are new to git or not confident enough in how it works, please, refer to any basic git introduction. Our advice is to google up “A Visual Git Reference” and get back here once you’re done!
 
-### Meaning
+
+## Basic Terminology
 
 So the very important thing is to understand main concepts:
 - `feature` - is a complete piece of functionality, it could be a new feature, hotfix, doc, test, refactoring, and so on;
 - `branches` - should serve to separate your work by type of goals you want to achieve or to react on issues in production, like `hotfixes`, with corresponding flows and actions;
 - `pull request` -  let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before the changes are merged into the repository :)
 
-### Pros and cons
+## Pros and cons
 
-This ‘git flow’ is our vision on the perfect way to develop things. But there is no ‘ideal’ way of development, you know, so let’s look at strong and weak parts of it.
+This ‘git flow’ is our vision on the perfect way to develop things. But there is never ‘ideal’ way of development, you know, so let’s look at strong and weak parts of it.
 
-#### Pros:
+### Pros:
 * Separation of concepts - each branch has clear purpose and flow how to work with it;
 * Confidence - at any given point of time `master` and `release` branches are stable and ready for production;
 * Isolation - you develop independent and isolated feature, so you can focus on problem;
 * Continuous processes - continuous deployment and testing for feature branches, continuous integration for `master` branch;
 * Code review - pull request allows to increase code quality and knowledge rotation in team, and as a consequence reduce "bus factor";
 
-#### Cons:
+### Cons:
 * "Scary merge" - well-illustrated problem by Martin Fowler (look him up, he’s a cool guy), to avoid it keep semantic changes as separate branches (explained later);
 * "Afraid of refactoring" - semantic changes (refactoring, renaming) leads to "scary merges", so try to do it when code targeted by refactoring is not changed by any other branches;
 * Dependencies (libraries) update - makes Pull Requests view polluted by library files and in general useless, so keep these updates as separate branches;
 
-##Table of contents
+# Table of contents
 1. [Required reading](#required-readings)
 2. [Branches](#branches)
 3. [Environments](#environments)
@@ -63,7 +86,7 @@ Pay attention to Feature Branching with Pull Requests
 
 - `master` - always **stable** and **release ready** branch;
 - `development` - default branch, contains latest **features** and **fixes**, on which developers should orient;
-- `feature-*` - branches for feature development and dependencies update;
+- `feature-*` - branches feature development and dependencies update;
 - `realese-*` - branches for release(production) version;
 - `hotfix-*` - branches for release `fixes`;
 - `refactor-*` - branches for semantic changes;
