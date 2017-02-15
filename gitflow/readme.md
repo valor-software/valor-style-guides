@@ -44,7 +44,7 @@ This ‘git flow’ is our vision on the perfect way to develop things. But ther
 * Separation of concepts - each branch has clear purpose and flow how to work with it;
 * Confidence - at any given point of time `master` and `release` branches are stable and ready for production;
 * Isolation - you develop independent and isolated feature, so you can focus on problem;
-* Continuous processes - continuous deployment and testing for feature branches, continuous integration for `master` branch;
+* Continuous processes - [continuous deployment](https://en.wikipedia.org/wiki/Continuous_delivery?oldformat=true) and testing for feature branches, [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration?oldformat=true) for `master` branch;
 * Code review - pull request allows to increase code quality and knowledge rotation in team, and as a consequence reduce "bus factor";
 
 ### Cons:
@@ -53,34 +53,17 @@ This ‘git flow’ is our vision on the perfect way to develop things. But ther
 * Dependencies (libraries) update - makes Pull Requests view polluted by library files and in general useless, so keep these updates as separate branches;
 
 # Table of contents
-1. [Required reading](#required-readings)
-2. [Branches](#branches)
-3. [Environments](#environments)
-4. [Branch name conventions](#branch-name-conventions)
-5. [Pull Requests](#pull-requests)
+1. [Branches](#branches)
+2. [Environments](#environments)
+3. [Branch name conventions](#branch-name-conventions)
+4. [Pull Requests](#pull-requests)
 5. [Merging via Pull Request](#merging-via-pull-requests)
 6. [Commits guideline](#commits-guideline)
 7. [Initiate repository with main branches](#init-repository-with-main-branches)
 8. [Feature branches flow](#feature-branches-flow)
 9. [Hotfix branches flow](#hotfix-branches-flow)
 10. [Release branches flow](#release-branches-flow)
-
-## Required readings
-
-Pay attention to Feature Branching with Pull Requests
-
-1. [Try github](https://try.github.io/levels/1/challenges/1)
-2. [Atlassian git tutorial](https://www.atlassian.com/git/tutorials/setting-up-a-repository/ ) (except Migrate to Git from SVN)
-3. [Feature branching classic by Martin Fowler](http://martinfowler.com/bliki/FeatureBranch.html)
-4. [Closest to ours branching model by Vincent Driessen](http://nvie.com/posts/a-successful-git-branching-model/)
-5. [Vincent Driessen git-flow cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/)
-([ru](http://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html))
-
-### Supporting readings
-
-1. [Semantic Versioning 2.0.0](http://semver.org/)
-2. [Git cheat sheet](https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf)
-3. [Github help: user collaborating](https://help.github.com/categories/collaborating/)
+11. [Required reading](#required-readings)
 
 ## Branches
 
@@ -127,7 +110,7 @@ regexp: `/[a-z0-9\-]+/`
 
 This flow will be used almost by any branch flow, so pay attention to it!
 
-1. [Create](https://help.github.com/articles/creating-a-pull-request/) `PR` from `current` branch to `target` branch
+1. [Create `PR`](https://help.github.com/articles/creating-a-pull-request/) from `current` branch to `target` branch
 
   * *Note*: `current` and `target` branches depends on what you are doing, see branch flows below
   * *Note*: except `hotfix` branches, `target` branch is `development`
@@ -229,7 +212,7 @@ The commit message format is important because these messages are used to create
 
 `master` branch should be in place for any repository by default.
 
-Create `development` branch and make it as default for `GitHub`.
+Create `development` branch and make it as default on `GitHub`.
 
 ```bash
 git checkout -b development origin/master
@@ -405,3 +388,20 @@ At GitHub:
 ```bash
   git branch -l | egrep -v "^\*|master|development" | xargs -n 1 git branch -D
 ```
+## Required readings
+
+Pay attention to Feature Branching with Pull Requests
+
+1. [Try github](https://try.github.io/levels/1/challenges/1)
+2. [Atlassian git tutorial](https://www.atlassian.com/git/tutorials/setting-up-a-repository/ ) (except Migrate to Git from SVN)
+3. [Feature branching classic by Martin Fowler](http://martinfowler.com/bliki/FeatureBranch.html)
+4. [Closest to ours branching model by Vincent Driessen](http://nvie.com/posts/a-successful-git-branching-model/)
+5. [Vincent Driessen git-flow cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/)
+([ru](http://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html))
+
+### Supporting readings
+
+1. [Semantic Versioning 2.0.0](http://semver.org/)
+2. [Git cheat sheet](https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf)
+3. [Github help: user collaborating](https://help.github.com/categories/collaborating/)
+
