@@ -21,6 +21,6 @@
   "homepage": "https://github.com/valor-software/valor-style-guides",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-eslint": "^0.15.0"
+    "gulp-eslint": "^3.0.1"
   }
 }
