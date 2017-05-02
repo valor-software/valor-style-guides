@@ -1,5 +1,7 @@
 ## Company-shared style guides and practices
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/valor-software/valor-style-guides.svg)](https://greenkeeper.io/)
+
 ### Must be read and applied:
 - [node.js style guide](nodejs/node-style-guide.md)
 - [angular.js style guide](angularjs/README.md)
